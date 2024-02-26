@@ -1,0 +1,50 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    root: debug
+    org:
+      hibernate:
+        SQL: debug
+
+spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/auth?useSSL=false&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf-8
+#    username: root
+#    password: 1234
+#  jpa:
+#    open-in-view: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        show_sql: false
+#        format_sql: true
+#        highlight_sql: true
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQLDialect
+  jackson:
+    time-zone: Asia/Seoul
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 387967054074-anlntlf3n5lgc44ctc8rjum3rihdm9i8.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            authorization-grant-type: authorization_code
+            scope:
+              - email
+              - profile
+
+jwt:
+  secret-key: 1a11e4ff6f338b5131fbdfcc42348daaa4575ba713f64c35a414cce521ae0ba345b17754e26583de69411234044f18a3e9d8a23c691d5f0226f9f8399e97ab15
