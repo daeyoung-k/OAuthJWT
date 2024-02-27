@@ -1,8 +1,8 @@
 package com.example.oauth2jwt.config
 
+import com.example.oauth2jwt.service.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -10,7 +10,9 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    private val customOAuth2UserService: CustomOAuth2UserService
+) {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -20,10 +22,12 @@ class SecurityConfig {
             .formLogin { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .anonymous{ it.disable() }
-            .oauth2Login(Customizer.withDefaults())
+            .oauth2Login{it ->
+                it.userInfoEndpoint { it.userService(customOAuth2UserService) }
+            }
             .authorizeHttpRequests {
                 it.requestMatchers(
-                    "/"
+                    "/**",
                 ).permitAll()
                 it.anyRequest().authenticated()
             }
