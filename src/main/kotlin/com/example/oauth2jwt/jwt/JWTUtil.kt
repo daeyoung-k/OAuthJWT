@@ -22,7 +22,7 @@ class JWTUtil(
             .build()
             .parseSignedClaims(token)
             .payload
-    fun getUsername(token: String): String {
+    fun getUsername(token: String?): String {
         return Jwts.parser()
             .verifyWith(key)
             .build()
